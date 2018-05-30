@@ -29,10 +29,10 @@
             this.props.deleteBlock (this.props.index.description);
   };
         save = () => {
-          var value = this.setState.newTxt.value;
-          this.props.update(this.setState.newTxt.value, this.props.children.description);
+          var value = this.refs.newTxt.value;
+          this.props.update(this.refs.newTxt.value, this.props.children.description);
             alert(this.props.children.description);
-            alert(this.setState.newTxt.value);
+            alert(this.refs.newTxt.value);
           this.setState ({edit: false});
   };
         rendNorm = () => {
@@ -100,8 +100,8 @@
   };
 
   updateText = (text, i) => {
-    var arr = this.state.tasks;
-    arr[i] = text;
+    var arr = this.state.tasks.description;
+    arr[i].description = text;
     this.setState ({tasks: arr});
   };
 
@@ -112,6 +112,7 @@
       </Task>
     );
   };
+
   render() {
     return (
       <div className="field">
