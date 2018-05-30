@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Список</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    
+      <div id="list"></div>
+    <script type="text/babel">
+
+     class Task extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                edit: false,
+    };
+  };
+        edit = () => {
+            this.setState ({edit: true});
+  };
+        remove = () => {
+            this.props.deleteBlock (this.props.index.description);
+  };
+        save = () => {
+          var value = this.setState.newTxt.value;
+          this.props.update(this.setState.newTxt.value, this.props.children.description);
+            alert(this.props.children.description);
+            alert(this.setState.newTxt.value);
+          this.setState ({edit: false});
+  };
+        rendNorm = () => {
+                return (
+                <div className="box">
+                 <table width="100%">
+                     <tr>
+                        <td width="20%">
+                            <div className="text">{this.props.children.name}</div>
+                            <p><button onClick={this.edit} className="btn edit">Редактировать</button></p>
+                        </td>
+                         <td width="30%">
+                             <div className="text">{this.props.children.description}</div>
+                             <p><button onClick={this.edit} className="btn edit">Редактировать</button></p>
+                        </td>
+                         <td width="20%"><div className="text">{this.props.children.importance}</div></td>
+                         <td width="15%"><div className="text">{this.props.children.time}</div></td>
+                         <td width="15%">chjrb</td>
+                    </tr>
+                    <tr>
+                        <td>
+                    <button onClick={this.remove} className="btn del">Удалить</button>
+                        </td>
+                    </tr>
+                            
+                </table>
+      </div>
+    );
+  };
+
+          rendEdit = () => {
+                return (
+                  <div className="box">
+                    <textarea ref="newTxt" defaultValue={this.props.children.description}></textarea>
+                     <button onClick={this.save} className="btn success">Сохранить</button>
+      </div>
+    );
+  };
+            
+     render() {
+    if (this.state.edit) {
+      return this.rendEdit ();
+    } else {
+      return this.rendNorm ();
+    }
+  }
+}
+
+    class Field extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tasks: [
+          {name: 'Задача1', description: 'Описание1Описание1Описание1 Описание1 Описание1  Описание1 Описание1  Описание1 Описание1  Описание1 Описание1', importance: 'Важность', time: 'срок выполнения'},
+          {name: 'Задача2', description: 'Описание2', importance: 'Важность', time: 'срок выполнения' },
+          {name: 'Задача3', description: 'Описание3', importance: 'Важность', time: 'срок выполнения' }
+      ]
+    };
+  };
+        
+  deleteBlock = (i) => {
+    var arr = this.state.tasks;
+    arr.splice (i, 1);
+    this.setState ({tasks: arr});
+  };
+
+  updateText = (text, i) => {
+    var arr = this.state.tasks;
+    arr[i] = text;
+    this.setState ({tasks: arr});
+  };
+
+  eachTask = (item, i) => {
+    return (
+      <Task key={i} index={i} update={this.updateText} deleteBlock={this.deleteBlock}>
+        {item}
+      </Task>
+    );
+  };
+  render() {
+    return (
+      <div className="field">
+        {this.state.tasks.map (this.eachTask)}
+      </div>
+    );
+  }
+}
+
+        const app = document.getElementById("list");
+
+      ReactDOM.render(<Field />, app);
+    </script>
+  </body>
+</html>
